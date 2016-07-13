@@ -24,3 +24,7 @@ foreach ($db->passwords('/group-name') as $name => $password) {
 }
 $db->close();
 ```
+
+See also
+--------
+http://keepass.info/
