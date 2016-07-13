@@ -20,10 +20,10 @@ class Gzipped {
    * @throws lang.FormatException
    */
   public function __construct($bytes) {
-    if (0 !== strncmp($bytes, "\x1f\x8b", 2)) {
-      throw new FormatException('Not GZIP format: Magic bytes mismatch');
-    } else if (strlen($bytes) < 18) {
+    if (strlen($bytes) < 18) {
       throw new FormatException('Not GZIP format: Too short');
+    } else if (0 !== strncmp($bytes, "\x1f\x8b", 2)) {
+      throw new FormatException('Not GZIP format: Magic bytes mismatch');
     }
 
     $this->header= unpack('cmethod/cflags/Vmtime/cxfl/cos', substr($bytes, 2, 8));
