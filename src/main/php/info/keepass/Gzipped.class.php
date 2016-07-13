@@ -1,8 +1,11 @@
 <?php namespace info\keepass;
 
+use lang\FormatException;
+
 /**
  * Handles decompressing GZipped data
  *
+ * @test xp://info.keepass.unittest.GzippedTest
  * @see  http://php.net/manual/en/function.gzdecode.php#82930
  */
 class Gzipped {
