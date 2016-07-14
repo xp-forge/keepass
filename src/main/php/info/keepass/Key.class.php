@@ -1,5 +1,12 @@
 <?php namespace info\keepass;
 
+use util\Secret;
+
+/**
+ * Use a key for decrypting the keepass database 
+ *
+ * @test  xp://info.keepass.unittest.KeyTest
+ */
 class Key {
   const ALGORITHM = 'sha256';
 
@@ -8,10 +15,10 @@ class Key {
   /**
    * Creates a new key 
    *
-   * @param  string $passphrase
+   * @param  string|util.Secret $passphrase
    */
   public function __construct($passphrase) {
-    $this->passphrase= $passphrase;
+    $this->passphrase= $passphrase instanceof Secret ? $passphrase : new Secret($passphrase);
   }
 
   /**
@@ -21,7 +28,7 @@ class Key {
    * @return string
    */
   public function transform($header) {
-    $hash= hash(self::ALGORITHM, hash(self::ALGORITHM, $this->passphrase, true), true);
+    $hash= hash(self::ALGORITHM, hash(self::ALGORITHM, $this->passphrase->reveal(), true), true);
 
     // Rounds is a 64-bit integer, which cannot be handled by PHP. Use the 
     // four 16-bit unsigned ints into ones, tens and hundreds, then iterate.
