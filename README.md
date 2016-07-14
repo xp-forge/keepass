@@ -22,12 +22,15 @@ use util\cmd\Console;
 
 $db= KeePassDatabase::open(new FileInputStream('database.kdbx'), new Key('passphrase'));
 Console::writeLine($db);
+
+// Show top-level groups and password entries inside these
 foreach ($db->groups() as $group) {
   foreach ($group->passwords() as $name => $password) {
     Console::writeLine($group->name(), '/', $name, ': ', $password);
   }
 }
-$db->close();```
+$db->close();
+```
 
 See also
 --------
