@@ -3,6 +3,8 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 0.2.0 / 2016-07-14
+
 * Added support for iterating over groups and entries, as well as
   selecting them by a path syntax
   (@thekid)
