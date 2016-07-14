@@ -31,6 +31,20 @@ class Group extends Object {
   }
 
   /**
+   * Retrieve all passwords
+   *
+   * @return php.Generator
+   * @throws lang.ElementNotFoundException
+   */
+  public function passwords() {
+    if (isset($this->backing['Entry'])) {
+      foreach ($this->backing['Entry'] as $uuid => $entry) {
+        yield $entry['String']['Title'] => $entry['String']['Password'];
+      }
+    }
+  }
+
+  /**
    * Groups inside this group
    *
    * @return php.Generator

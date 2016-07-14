@@ -80,6 +80,13 @@ class DatabaseWithOneGroupTest extends \unittest\TestCase {
     });
   }
 
+  #[@test]
+  public function all_passwords_in_test_group() {
+    with (KeePassDatabase::open($this->input, $this->key), function($db) {
+      $this->assertEquals(['Test' => $this->entry['String']['Password']], iterator_to_array($db->passwords('/Test')));
+    });
+  }
+
   #[@test, @expect(ElementNotFoundException::class)]
   public function non_existant_password() {
     with (KeePassDatabase::open($this->input, $this->key), function($db) {

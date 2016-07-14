@@ -151,14 +151,7 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
    * @throws lang.ElementNotFoundException
    */
   public function passwords($path) {
-    $structure= $this->group($path);
-
-    $return= [];
-    $prefix= rtrim($path, '/').'/';
-    foreach ($structure['Entry'] as $uuid => $entry) {
-      $return[$prefix.$entry['String']['Title']]= $entry['String']['Password'];
-    }
-    return $return;
+    return $this->group($path)->passwords();
   }
 
   public function close() {
