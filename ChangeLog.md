@@ -3,6 +3,9 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+* Added support for iterating over groups and entries, as well as
+  selecting them by a path syntax
+  (@thekid)
 * Added support for `util.Secret` instances in `Key` constructor
   (@thekid)
 

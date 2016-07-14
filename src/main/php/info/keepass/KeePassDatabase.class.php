@@ -4,7 +4,7 @@ use lang\FormatException;
 use lang\IndexOutOfBoundsException;
 use lang\ElementNotFoundException;
 
-class KeePassDatabase extends \lang\Object {
+class KeePassDatabase extends \lang\Object implements \lang\Closeable {
   private $version, $header, $blocks;
   private $structure= null;
   private $randoms= null;
@@ -109,13 +109,26 @@ class KeePassDatabase extends \lang\Object {
     $root= $this->structure()['Root']['Group'];
     $structure= $root[key($root)];
 
-    foreach (explode('/', trim($path, '/')) as $segment) {
-      if (null === ($located= $this->locate($structure['Group'], $segment))) {
-        throw new ElementNotFoundException('No such group `'.$segment.'\' in '.$structure['Name']);
+    if ('/' !== $path) {
+      foreach (explode('/', trim($path, '/')) as $segment) {
+        if (null === ($located= $this->locate($structure['Group'], $segment))) {
+          throw new ElementNotFoundException('No such group `'.$segment.'\' in '.$structure['Name']);
+        }
+        $structure= $located;
       }
-      $structure= $located;
     }
-    return $structure;
+
+    return new Group($structure);
+  }
+
+  /**
+   * Groups inside the given path
+   *
+   * @param  string $path Pass "/" to select database root
+   * @return php.Generator
+   */
+  public function groups($path= '/') {
+    return $this->group($path)->groups();
   }
 
   /**
@@ -127,13 +140,7 @@ class KeePassDatabase extends \lang\Object {
    */
   public function password($path) {
     $p= strrpos($path, '/');
-    $structure= $this->group(substr($path, 0, $p));
-    $title= substr($path, $p + 1);
-    foreach ($structure['Entry'] as $uuid => $entry) {
-      if ($title === $entry['String']['Title']) return $entry['String']['Password'];
-    }
-
-    throw new ElementNotFoundException('No such password '.$path);
+    return $this->group(substr($path, 0, $p))->password(substr($path, $p + 1));
   }
 
   /**
