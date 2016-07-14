@@ -17,6 +17,8 @@ Example
 ```php
 use info\keepass\KeePassDatabase;
 use info\keepass\Key;
+use io\streams\FileInputStream;
+use util\cmd\Console;
 
 $db= KeePassDatabase::open(new FileInputStream('database.kdbx'), new Key('passphrase'));
 foreach ($db->passwords('/group-name') as $name => $password) {
