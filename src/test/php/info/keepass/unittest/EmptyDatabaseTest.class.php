@@ -3,6 +3,7 @@
 use info\keepass\KeePassDatabase;
 use info\keepass\Key;
 use info\keepass\Header;
+use info\keepass\Group;
 use lang\ClassLoader;
 
 class EmptyDatabaseTest extends \unittest\TestCase {
@@ -12,6 +13,18 @@ class EmptyDatabaseTest extends \unittest\TestCase {
   public function setUp() {
     $this->key= new Key('test');
     $this->input= ClassLoader::getDefault()->getResourceAsStream('fixtures/empty.kdbx')->in();
+    $this->root= [
+      'UUID'                    => 'jjLuM4mTBkCOy4HzFWpv5w==',
+      'Name'                    => 'Database Root',
+      'Notes'                   => null,
+      'IconID'                  => '48',
+      'Times'                   => '',
+      'IsExpanded'              => 'True',
+      'DefaultAutoTypeSequence' => null,
+      'EnableAutoType'          => 'null',
+      'EnableSearching'         => 'null',
+      'LastTopVisibleEntry'     => 'AAAAAAAAAAAAAAAAAAAAAA=='
+    ];
   }
 
   #[@test]
@@ -23,6 +36,13 @@ class EmptyDatabaseTest extends \unittest\TestCase {
   public function header() {
     with (KeePassDatabase::open($this->input, $this->key), function($db) {
       $this->assertInstanceOf(Header::class, $db->header());
+    });
+  }
+
+  #[@test]
+  public function root() {
+    with (KeePassDatabase::open($this->input, $this->key), function($db) {
+      $this->assertEquals(new Group($this->root), $db->group('/'));
     });
   }
 
