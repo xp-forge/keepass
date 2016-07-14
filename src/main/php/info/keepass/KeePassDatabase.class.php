@@ -163,7 +163,7 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
 
   /** @return void */
   public function close() {
-    // NOOP
+    $this->structure= null;
   }
 
   /** @return string */
