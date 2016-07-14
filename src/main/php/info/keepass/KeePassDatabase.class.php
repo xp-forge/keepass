@@ -105,6 +105,13 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
     return null;
   }
 
+  /**
+   * Get a group
+   *
+   * @param  string $path Pass "/" to select database root
+   * @return info.keepass.Group
+   * @throws lang.ElementNotFoundException if the group does not exist
+   */
   public function group($path) {
     $root= $this->structure()['Root']['Group'];
     $structure= $root[key($root)];
@@ -154,6 +161,7 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
     return $this->group($path)->passwords();
   }
 
+  /** @return void */
   public function close() {
     // NOOP
   }
