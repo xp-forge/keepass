@@ -21,11 +21,13 @@ use io\streams\FileInputStream;
 use util\cmd\Console;
 
 $db= KeePassDatabase::open(new FileInputStream('database.kdbx'), new Key('passphrase'));
-foreach ($db->passwords('/group-name') as $name => $password) {
-  Console::writeLine($name, ': ', $password);
+Console::writeLine($db);
+foreach ($db->groups() as $group) {
+  foreach ($group->passwords() as $name => $password) {
+    Console::writeLine($group->name(), '/', $name, ': ', $password);
+  }
 }
-$db->close();
-```
+$db->close();```
 
 See also
 --------
