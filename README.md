@@ -26,7 +26,7 @@ Console::writeLine($db);
 // Show top-level groups and password entries inside these
 foreach ($db->groups() as $group) {
   foreach ($group->passwords() as $name => $password) {
-    Console::writeLine($group->name(), '/', $name, ': ', $password);
+    Console::writeLine($name, ': ', $password);
   }
 }
 $db->close();
