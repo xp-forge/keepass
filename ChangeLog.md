@@ -3,6 +3,8 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 0.4.0 / 2016-07-16
+
 * Added path accessor to groups and entries - @thekid
 
 ## 0.3.0 / 2016-07-16
