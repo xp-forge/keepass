@@ -1,21 +1,17 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\KeePassDatabase;
-use info\keepass\Key;
 use info\keepass\Entry;
 use info\keepass\ProtectedValue;
-use lang\ClassLoader;
 
-class DatabaseWithEntriesInRootTest extends \unittest\TestCase {
+class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
   const ID_ONE = '7d986517-3006-454d-b8aa-c2a9a314362e';
   const ID_TWO = '1bbdd52d-f1f0-914f-9da3-c845f609a87d';
 
-  private $key, $input, $entries;
+  protected $fixture= 'entries-in-root';
+  private $entries;
 
   /** @return void */
   public function setUp() {
-    $this->key= new Key('entries-in-root');
-    $this->input= ClassLoader::getDefault()->getResourceAsStream('fixtures/entries-in-root.kdbx')->in();
     $this->entries= [
       self::ID_ONE => [
         'UUID'            => 'fZhlFzAGRU24qsKpoxQ2Lg==',
@@ -58,7 +54,7 @@ class DatabaseWithEntriesInRootTest extends \unittest\TestCase {
 
   #[@test]
   public function entries_in_root() {
-    with (KeePassDatabase::open($this->input, $this->key), function($db) {
+    with ($this->database(), function($db) {
       $this->assertEquals(
         [
           self::ID_ONE => new Entry($this->entries[self::ID_ONE]),
@@ -70,8 +66,8 @@ class DatabaseWithEntriesInRootTest extends \unittest\TestCase {
   }
 
   #[@test]
-  public function all_passwords_in_test_group() {
-    with (KeePassDatabase::open($this->input, $this->key), function($db) {
+  public function all_passwords_in_root() {
+    with ($this->database(), function($db) {
       $this->assertEquals(
         [
           'Entry #1' => $this->entries[self::ID_ONE]['String']['Password'],
