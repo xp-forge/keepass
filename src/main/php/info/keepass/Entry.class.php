@@ -3,6 +3,11 @@
 use util\UUID;
 use lang\ElementNotFoundException;
 
+/**
+ * A password entry 
+ *
+ * @test  xp://info.keepass.unittest.EntryTest
+ */
 class Entry extends Object {
 
   /** @return util.UUID */

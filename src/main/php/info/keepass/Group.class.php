@@ -3,6 +3,11 @@
 use util\UUID;
 use lang\ElementNotFoundException;
 
+/**
+ * A group
+ *
+ * @test  xp://info.keepass.unittest.GroupTest
+ */
 class Group extends Object {
 
   /** @return util.UUID */
@@ -39,7 +44,7 @@ class Group extends Object {
   public function passwords() {
     if (isset($this->backing['Entry'])) {
       foreach ($this->backing['Entry'] as $uuid => $entry) {
-        yield $entry['String']['Title'] => $entry['String']['Password'];
+        yield $this->path.$entry['String']['Title'] => $entry['String']['Password'];
       }
     }
   }
@@ -52,7 +57,7 @@ class Group extends Object {
   public function groups() {
     if (isset($this->backing['Group'])) {
       foreach ($this->backing['Group'] as $uuid => $group) {
-        yield $this->decodeUUID($uuid) => new Group($group);
+        yield $this->decodeUUID($uuid) => new Group($group, $this->path.$group['Name']);
       }
     }
   }
@@ -65,7 +70,7 @@ class Group extends Object {
   public function entries() {
     if (isset($this->backing['Entry'])) {
       foreach ($this->backing['Entry'] as $uuid => $entry) {
-        yield $this->decodeUUID($uuid) => new Entry($entry);
+        yield $this->decodeUUID($uuid) => new Entry($entry, $this->path.$entry['String']['Title']);
       }
     }
   }

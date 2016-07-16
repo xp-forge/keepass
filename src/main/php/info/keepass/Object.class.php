@@ -1,16 +1,20 @@
 <?php namespace info\keepass;
 
 class Object {
-  protected $backing;
+  protected $backing, $path;
 
   /**
    * Creates a new group
    *
    * @param  [:var] $backing
    */
-  public function __construct($backing) {
+  public function __construct($backing, $path) {
     $this->backing= $backing;
+    $this->path= rtrim($path, '/').'/';
   }
+
+  /** @return string */
+  public function path() { return '/' === $this->path ? '/' : substr($this->path, 0, -1); }
 
   /**
    * Decodes a UUID

@@ -52,7 +52,7 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   #[@test]
   public function test_group() {
     with ($this->database(), function($db) {
-      $this->assertEquals(new Group($this->group), $db->group('/Test'));
+      $this->assertEquals(new Group($this->group, '/Test'), $db->group('/Test'));
     });
   }
 
@@ -66,7 +66,7 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   #[@test]
   public function all_passwords_in_test_group() {
     with ($this->database(), function($db) {
-      $this->assertEquals(['Test' => $this->entry['String']['Password']], iterator_to_array($db->passwords('/Test')));
+      $this->assertEquals(['/Test/Test' => $this->entry['String']['Password']], iterator_to_array($db->passwords('/Test')));
     });
   }
 
@@ -87,7 +87,7 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   #[@test]
   public function groups_in_root() {
     with ($this->database(), function($db) {
-      $this->assertEquals([self::GROUPID => new Group($this->group)], iterator_to_array($db->groups()));
+      $this->assertEquals([self::GROUPID => new Group($this->group, '/Test')], iterator_to_array($db->groups()));
     });
   }
 
@@ -101,7 +101,7 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   #[@test]
   public function entries_in_test_group() {
     with ($this->database(), function($db) {
-      $this->assertEquals([self::ENTRYID => new Entry($this->entry)], iterator_to_array($db->group('/Test')->entries()));
+      $this->assertEquals([self::ENTRYID => new Entry($this->entry, '/Test/Test')], iterator_to_array($db->group('/Test')->entries()));
     });
   }
 

@@ -3,6 +3,8 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+* Added path accessor to groups and entries - @thekid
+
 ## 0.3.0 / 2016-07-16
 
 * Fixed issue #1: HHVM XML parsing - @thekid

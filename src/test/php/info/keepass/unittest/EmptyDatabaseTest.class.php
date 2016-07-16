@@ -25,7 +25,7 @@ class EmptyDatabaseTest extends AbstractDatabaseTest {
   #[@test]
   public function root_group() {
     with ($this->database(), function($db) {
-      $this->assertEquals(new Group($this->root), $db->group('/'));
+      $this->assertEquals(new Group($this->root, '/'), $db->group('/'));
     });
   }
 

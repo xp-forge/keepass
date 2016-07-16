@@ -57,8 +57,8 @@ class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
     with ($this->database(), function($db) {
       $this->assertEquals(
         [
-          self::ID_ONE => new Entry($this->entries[self::ID_ONE]),
-          self::ID_TWO => new Entry($this->entries[self::ID_TWO])
+          self::ID_ONE => new Entry($this->entries[self::ID_ONE], '/Entry #1'),
+          self::ID_TWO => new Entry($this->entries[self::ID_TWO], '/Entry #2')
         ],
         iterator_to_array($db->group('/')->entries())
       );
@@ -70,8 +70,8 @@ class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
     with ($this->database(), function($db) {
       $this->assertEquals(
         [
-          'Entry #1' => $this->entries[self::ID_ONE]['String']['Password'],
-          'Entry #2' => $this->entries[self::ID_TWO]['String']['Password']
+          '/Entry #1' => $this->entries[self::ID_ONE]['String']['Password'],
+          '/Entry #2' => $this->entries[self::ID_TWO]['String']['Password']
         ],
         iterator_to_array($db->passwords('/'))
       );

@@ -87,7 +87,7 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
       }
     }
 
-    return new Group($structure);
+    return new Group($structure, $path);
   }
 
   /**
