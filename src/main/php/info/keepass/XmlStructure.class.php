@@ -1,10 +1,17 @@
 <?php namespace info\keepass;
 
+use lang\FormatException;
+
+/**
+ * KeePass database XML tree
+ *
+ * @test  xp://info.keepass.unittest.XmlStructureTest
+ */
 class XmlStructure {
-  private $randoms, $structure;
+  private $randoms, $tree;
 
   /**
-   * Creates a new KeePass database XML structure
+   * Creates a new KeePass database XML tree
    *
    * @param  info.keepass.Randoms $randoms
    */
@@ -27,42 +34,61 @@ class XmlStructure {
     xml_set_element_handler($parser, 'open', 'close');
     xml_set_character_data_handler($parser, 'text');
 
-    $this->structure= [];
-    xml_parse($parser, $xml, true);
+    $this->tree= [];
+    if (!xml_parse($parser, $xml, true)) {
+      $error= xml_get_error_code($parser);
+      $line= xml_get_current_line_number($parser);
+      xml_parser_free($parser);
+      throw new FormatException('Error #'.$error.': '.xml_error_string($error).' at line '.$line);
+    }
+
     xml_parser_free($parser);
   }
 
-  /** @return [:var] */
-  public function root() { return $this->structure['Root']; }
+  /**
+   * Returns root group
+   *
+   * @return [:var]
+   */
+  public function root() {
+    $groups= $this->tree['Root']['Group'];
+    return $groups[key($groups)];
+  }
 
-  /** @return [:var] */
-  public function meta() { return $this->structure['Meta']; }
+  /**
+   * Returns meta information
+   *
+   * @return [:var]
+   */
+  public function meta() {
+    return $this->tree['Meta'];
+  }
 
   private function open($parser, $tag, $attributes) {
-    array_unshift($this->structure, new Node($tag, isset($attributes['Protected'])));
+    array_unshift($this->tree, new Node($tag, isset($attributes['Protected'])));
   }
 
   private function close($parser, $tag) {
-    $child= array_shift($this->structure);
+    $child= array_shift($this->tree);
     if ('Group' === $tag || 'Entry' === $tag) {
-      $this->structure[0]->children[$tag][$child->children['UUID']]= $child->children;
+      $this->tree[0]->children[$tag][$child->children['UUID']]= $child->children;
     } else if ('Meta' === $tag || 'Root' === $tag || 'History' === $tag) {
-      $this->structure[0]->children[$tag]= $child->children;
+      $this->tree[0]->children[$tag]= $child->children;
     } else if ('String' === $tag) {
-      $this->structure[0]->children[$tag][$child->children['Key']]= $child->children['Value'];
+      $this->tree[0]->children[$tag][$child->children['Key']]= $child->children['Value'];
     } else if ('KeePassFile' === $tag) {
-      $this->structure= $child->children;
+      $this->tree= $child->children;
     } else {
-      $this->structure[0]->children[$child->tag]= $child->value;
+      $this->tree[0]->children[$child->tag]= $child->value;
     }
   }
 
   private function text($parser, $text){
-    if ($this->structure[0]->protected) {
+    if ($this->tree[0]->protected) {
       $value= base64_decode($text);
-      $this->structure[0]->value= new ProtectedValue($value, $this->randoms->next(strlen($value)));
+      $this->tree[0]->value= new ProtectedValue($value, $this->randoms->next(strlen($value)));
     } else {
-      $this->structure[0]->value= trim($text);
+      $this->tree[0]->value= trim($text);
     }
   }
 }

@@ -76,8 +76,7 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
    * @throws lang.ElementNotFoundException if the group does not exist
    */
   public function group($path) {
-    $root= $this->structure()->root()['Group'];
-    $structure= $root[key($root)];
+    $structure= $this->structure()->root();
 
     if ('/' !== $path) {
       foreach (explode('/', trim($path, '/')) as $segment) {
