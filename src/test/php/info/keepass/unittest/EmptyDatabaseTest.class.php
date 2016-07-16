@@ -1,6 +1,5 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\Header;
 use info\keepass\Group;
 
 class EmptyDatabaseTest extends AbstractDatabaseTest {
@@ -24,14 +23,7 @@ class EmptyDatabaseTest extends AbstractDatabaseTest {
   }
 
   #[@test]
-  public function header() {
-    with ($this->database(), function($db) {
-      $this->assertInstanceOf(Header::class, $db->header());
-    });
-  }
-
-  #[@test]
-  public function root() {
+  public function root_group() {
     with ($this->database(), function($db) {
       $this->assertEquals(new Group($this->root), $db->group('/'));
     });
@@ -41,6 +33,13 @@ class EmptyDatabaseTest extends AbstractDatabaseTest {
   public function groups_are_empty() {
     with ($this->database(), function($db) {
       $this->assertEquals([], iterator_to_array($db->groups()));
+    });
+  }
+
+  #[@test]
+  public function passwords_are_empty() {
+    with ($this->database(), function($db) {
+      $this->assertEquals([], iterator_to_array($db->passwords()));
     });
   }
 }

@@ -2,7 +2,6 @@
 
 use info\keepass\Group;
 use info\keepass\Entry;
-use info\keepass\Header;
 use info\keepass\ProtectedValue;
 use lang\ElementNotFoundException;
 
@@ -48,13 +47,6 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
         'bFPbm3JFHU2564rkDesf4Q==' => $this->entry
       ]
     ];
-  }
-
-  #[@test]
-  public function header() {
-    with ($this->database(), function($db) {
-      $this->assertInstanceOf(Header::class, $db->header());
-    });
   }
 
   #[@test]

@@ -115,11 +115,11 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
   /**
    * Retrieve all passwords in a given group
    *
-   * @param  string $path
+   * @param  string $path Pass "/" to select database root
    * @return [:var]
    * @throws lang.ElementNotFoundException
    */
-  public function passwords($path) {
+  public function passwords($path= '/') {
     return $this->group($path)->passwords();
   }
 
