@@ -7,7 +7,7 @@ use lang\IllegalArgumentException;
  *
  * @see  https://cr.yp.to/snuffle.html
  */
-class Salsa20 {
+class Salsa20 implements Randoms {
   const STATE_LEN  = 32;
   const OUTPUT_LEN = 64;
   const KEY_LEN    = 32;

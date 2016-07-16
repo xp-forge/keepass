@@ -54,45 +54,8 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
         $xml= $this->blocks->all();
       }
 
-      $randoms= $this->header->randoms();
-      $this->structure= [];
-
-      $parser= xml_parser_create();
-      xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
-      xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
-      xml_set_element_handler(
-        $parser,
-        function($parser, $tag, $attributes) {
-          array_unshift($this->structure, new Node($tag, isset($attributes['Protected'])));
-        },
-        function($parser, $tag) {
-          $child= array_shift($this->structure);
-          if ('Group' === $tag || 'Entry' === $tag) {
-            $this->structure[0]->children[$tag][$child->children['UUID']]= $child->children;
-          } else if ('Meta' === $tag || 'Root' === $tag || 'History' === $tag) {
-            $this->structure[0]->children[$tag]= $child->children;
-          } else if ('String' === $tag) {
-            $this->structure[0]->children[$tag][$child->children['Key']]= $child->children['Value'];
-          } else if ('KeePassFile' === $tag) {
-            $this->structure= $child->children;
-          } else {
-            $this->structure[0]->children[$child->tag]= $child->value;
-          }
-        }
-      );
-      xml_set_character_data_handler(
-        $parser,
-        function($parser, $text) use($randoms) {
-          if ($this->structure[0]->protected) {
-            $value= base64_decode($text);
-            $this->structure[0]->value= new ProtectedValue($value, $randoms->next(strlen($value)));
-          } else {
-            $this->structure[0]->value= trim($text);
-          }
-        }
-      );
-      xml_parse($parser, $xml, true);
-      xml_parser_free($parser);
+      $this->structure= new XmlStructure($this->header->randoms());
+      $this->structure->parse($xml);
     }
 
     return $this->structure;
@@ -113,7 +76,7 @@ class KeePassDatabase extends \lang\Object implements \lang\Closeable {
    * @throws lang.ElementNotFoundException if the group does not exist
    */
   public function group($path) {
-    $root= $this->structure()['Root']['Group'];
+    $root= $this->structure()->root()['Group'];
     $structure= $root[key($root)];
 
     if ('/' !== $path) {

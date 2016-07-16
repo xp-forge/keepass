@@ -3,6 +3,10 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 0.3.0 / 2016-07-16
+
+* Fixed issue #1: HHVM XML parsing - @thekid
+
 ## 0.2.0 / 2016-07-14
 
 * Added support for iterating over groups and entries, as well as
