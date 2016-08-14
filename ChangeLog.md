@@ -3,6 +3,9 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+* **Heads up: Dropped PHP 5.5 support**. Minimum PHP version is now PHP 5.6.0
+  (@thekid)
+
 ## 0.4.0 / 2016-07-16
 
 * Added path accessor to groups and entries - @thekid
