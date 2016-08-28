@@ -3,6 +3,9 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 0.5.0 / 2016-08-28
+
+* Added forward compatibility with XP 8.0.0 - @thekid
 * **Heads up: Dropped PHP 5.5 support**. Minimum PHP version is now PHP 5.6.0
   (@thekid)
 
