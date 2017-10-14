@@ -4,7 +4,7 @@ use lang\FormatException;
 use lang\IndexOutOfBoundsException;
 use lang\ElementNotFoundException;
 
-class KeePassDatabase extends \lang\Object implements \lang\Closeable {
+class KeePassDatabase implements \lang\Closeable {
   private $version, $header, $blocks;
   private $structure= null;
   private $randoms= null;

@@ -3,6 +3,10 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 0.6.0 / 2017-10-14
+
+* Added forward compatibility with XP 9.0.0 - @thekid
+
 ## 0.5.0 / 2016-08-28
 
 * Added forward compatibility with XP 8.0.0 - @thekid

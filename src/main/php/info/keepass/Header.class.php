@@ -2,7 +2,7 @@
 
 use lang\IllegalStateException;
 
-class Header extends \lang\Object {
+class Header {
   private static $compressions= ['NONE', 'GZIP'];
   private static $randomStreams= ['NONE', 'ARC4', 'SALSA20'];
 

@@ -2,7 +2,7 @@
 
 use lang\FormatException;
 
-class Blocks extends \lang\Object {
+class Blocks {
   const HEADER = 40;
 
   private $bytes, $start;
