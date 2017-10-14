@@ -15,8 +15,7 @@ Example
 -------
 
 ```php
-use info\keepass\KeePassDatabase;
-use info\keepass\Key;
+use info\keepass\{KeePassDatabase, Key};
 use io\streams\FileInputStream;
 use util\cmd\Console;
 
