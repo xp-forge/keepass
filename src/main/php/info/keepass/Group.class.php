@@ -8,7 +8,7 @@ use lang\ElementNotFoundException;
  *
  * @test  xp://info.keepass.unittest.GroupTest
  */
-class Group extends Object {
+class Group extends KeePassObject {
 
   /** @return util.UUID */
   public function uuid() { return new UUID($this->decodeUUID($this->backing['UUID'])); }

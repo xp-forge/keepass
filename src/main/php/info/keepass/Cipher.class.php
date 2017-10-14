@@ -1,6 +1,7 @@
 <?php namespace info\keepass;
 
 class Cipher {
+  private $method, $key, $iv;
 
   public function __construct($method, $key, $iv= '') {
     $this->method= $method;
