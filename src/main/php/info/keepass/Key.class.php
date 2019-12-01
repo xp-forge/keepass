@@ -33,9 +33,13 @@ class Key {
     // Rounds is a 64-bit integer, which cannot be handled by PHP. Use the 
     // four 16-bit unsigned ints into ones, tens and hundreds, then iterate.
     $rounds= $header->rounds;
-    $ones= $rounds[0] | (($rounds[1] & 0x3fff) << 0x10);
-    $tens= (($rounds[1] & 0xc000) >> 0x0e) | ($rounds[2] << 0x02) | (($rounds[3] & 0x0fff) << 0x12);
-    $hundreds= ($rounds[3] & 0xf000) >> 0x0c;
+    if (is_array($rounds)) {
+      $ones= $rounds[0] | (($rounds[1] & 0x3fff) << 0x10);
+      $tens= (($rounds[1] & 0xc000) >> 0x0e) | ($rounds[2] << 0x02) | (($rounds[3] & 0x0fff) << 0x12);
+      $hundreds= ($rounds[3] & 0xf000) >> 0x0c;
+    } else {
+      $ones= $tens= $hundreds= 0;
+    }
 
     $cipher= new Cipher('aes-256-ecb', $header->transformSeed, '');
     do {
