@@ -1,8 +1,8 @@
 <?php namespace info\keepass;
 
+use lang\ElementNotFoundException;
 use lang\FormatException;
 use lang\IndexOutOfBoundsException;
-use lang\ElementNotFoundException;
 
 class KeePassDatabase implements \lang\Closeable {
   private $version, $header, $blocks;
@@ -12,16 +12,16 @@ class KeePassDatabase implements \lang\Closeable {
   /**
    * Opens a KeePass database file
    *
-   * @param  io.streams.InputStream $input
+   * @param  io.streams.InputStream|io.File $source
    * @param  info.keepass.Key $key
    * @return self
    * @throws lang.FormatException
    * @throws info.keepass.CannotDecrypt
    */
-  public static function open($input, Key $key) {
+  public static function open($source, Key $key) {
     $self= new self();
 
-    with (new Reader($input, 'sha256'), function($reader) use($self, $key) {
+    with (new Reader($source, 'sha256'), function($reader) use($self, $key) {
       $self->version= $reader->version();
       $self->header= $reader->header();
 

@@ -5,6 +5,9 @@ KeePass databases change log
 
 ## 1.0.0 / 2019-12-01
 
+* Implemented feature request #2, also allowing `io.File` instanes as
+  parameter for `KeepassDatabase::open()`.
+  (@thekid)
 * Implemented xp-framework/rfc#334: Drop PHP 5.6. The minimum required
   PHP version is now 7.0.0!
   (@thekid)
