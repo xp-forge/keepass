@@ -3,6 +3,10 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 0.6.1 / 2019-12-01
+
+* Added compatibility with XP 10, see xp-framework/rfc#333 - @thekid
+
 ## 0.6.0 / 2017-10-14
 
 * Added forward compatibility with PHP 7.2 - @thekid
