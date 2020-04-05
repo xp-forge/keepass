@@ -11,12 +11,12 @@ class GzippedTest extends \unittest\TestCase {
     new Gzipped(self::COMPRESSED);
   }
 
-  #[@test, @expect(class= FormatException::class, withMessage= '/Too short/')]
+  #[@test, @expect(['class' => FormatException::class, 'withMessage' => '/Too short/'])]
   public function empty_input_is_invalid() {
     new Gzipped('');
   }
 
-  #[@test, @expect(class= FormatException::class, withMessage= '/Magic bytes mismatch/')]
+  #[@test, @expect(['class' => FormatException::class, 'withMessage' => '/Magic bytes mismatch/'])]
   public function invalid_data() {
     new Gzipped('******************');
   }

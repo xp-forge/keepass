@@ -3,6 +3,11 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 1.0.1 / 2020-04-05
+
+* Implemented RFC #335: Remove deprecated key/value pair annotation syntax
+  (@thekid)
+
 ## 1.0.0 / 2019-12-01
 
 * Implemented feature request #2, also allowing `io.File` instanes as
