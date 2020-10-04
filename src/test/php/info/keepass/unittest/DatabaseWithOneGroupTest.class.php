@@ -1,9 +1,8 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\Group;
-use info\keepass\Entry;
-use info\keepass\ProtectedValue;
+use info\keepass\{Entry, Group, ProtectedValue};
 use lang\ElementNotFoundException;
+use unittest\{Expect, Test};
 
 class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   const GROUPID = '572dbca6-50a0-c34b-b963-43ed3f673fd9';
@@ -49,63 +48,63 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
     ];
   }
 
-  #[@test]
+  #[Test]
   public function test_group() {
     with ($this->database(), function($db) {
       $this->assertEquals(new Group($this->group, '/Test'), $db->group('/Test'));
     });
   }
 
-  #[@test]
+  #[Test]
   public function test_password() {
     with ($this->database(), function($db) {
       $this->assertEquals($this->entry['String']['Password'], $db->password('/Test/Test'));
     });
   }
 
-  #[@test]
+  #[Test]
   public function all_passwords_in_test_group() {
     with ($this->database(), function($db) {
       $this->assertEquals(['/Test/Test' => $this->entry['String']['Password']], iterator_to_array($db->passwords('/Test')));
     });
   }
 
-  #[@test, @expect(ElementNotFoundException::class)]
+  #[Test, Expect(ElementNotFoundException::class)]
   public function non_existant_password() {
     with ($this->database(), function($db) {
       $db->password('/Test/Non-Existant');
     });
   }
 
-  #[@test, @expect(ElementNotFoundException::class)]
+  #[Test, Expect(ElementNotFoundException::class)]
   public function password_in_non_existant_folder() {
     with ($this->database(), function($db) {
       $db->password('/Non-Existant/Password');
     });
   }
 
-  #[@test]
+  #[Test]
   public function groups_in_root() {
     with ($this->database(), function($db) {
       $this->assertEquals([self::GROUPID => new Group($this->group, '/Test')], iterator_to_array($db->groups()));
     });
   }
 
-  #[@test]
+  #[Test]
   public function subgroups_of_test_group_are_empty() {
     with ($this->database(), function($db) {
       $this->assertEquals([], iterator_to_array($db->groups('/Test')));
     });
   }
 
-  #[@test]
+  #[Test]
   public function entries_in_test_group() {
     with ($this->database(), function($db) {
       $this->assertEquals([self::ENTRYID => new Entry($this->entry, '/Test/Test')], iterator_to_array($db->group('/Test')->entries()));
     });
   }
 
-  #[@test]
+  #[Test]
   public function entries_in_root() {
     with ($this->database(), function($db) {
       $this->assertEquals([], iterator_to_array($db->group('/')->entries()));

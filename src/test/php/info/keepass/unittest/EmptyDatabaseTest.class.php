@@ -1,6 +1,7 @@
 <?php namespace info\keepass\unittest;
 
 use info\keepass\Group;
+use unittest\Test;
 
 class EmptyDatabaseTest extends AbstractDatabaseTest {
   protected $fixture= 'empty';
@@ -22,21 +23,21 @@ class EmptyDatabaseTest extends AbstractDatabaseTest {
     ];
   }
 
-  #[@test]
+  #[Test]
   public function root_group() {
     with ($this->database(), function($db) {
       $this->assertEquals(new Group($this->root, '/'), $db->group('/'));
     });
   }
 
-  #[@test]
+  #[Test]
   public function groups_are_empty() {
     with ($this->database(), function($db) {
       $this->assertEquals([], iterator_to_array($db->groups()));
     });
   }
 
-  #[@test]
+  #[Test]
   public function passwords_are_empty() {
     with ($this->database(), function($db) {
       $this->assertEquals([], iterator_to_array($db->passwords()));

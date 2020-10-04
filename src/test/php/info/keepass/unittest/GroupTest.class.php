@@ -1,8 +1,7 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\Group;
-use info\keepass\Entry;
-use info\keepass\ProtectedValue;
+use info\keepass\{Entry, Group, ProtectedValue};
+use unittest\Test;
 use util\UUID;
 
 class GroupTest extends \unittest\TestCase {
@@ -58,37 +57,37 @@ class GroupTest extends \unittest\TestCase {
     ];
   }
     
-  #[@test]
+  #[Test]
   public function can_create() {
     new Group($this->group, '/Test');
   }
 
-  #[@test]
+  #[Test]
   public function path() {
     $this->assertEquals('/Test', (new Group($this->group, '/Test'))->path());
   }
 
-  #[@test]
+  #[Test]
   public function uuid() {
     $this->assertEquals(new UUID('572dbca6-50a0-c34b-b963-43ed3f673fd9'), (new Group($this->group, '/Test'))->uuid());
   }
 
-  #[@test]
+  #[Test]
   public function name() {
     $this->assertEquals('Test', (new Group($this->group, '/Test'))->name());
   }
 
-  #[@test]
+  #[Test]
   public function notes() {
     $this->assertEquals('Notes', (new Group($this->group, '/Test'))->notes());
   }
 
-  #[@test]
+  #[Test]
   public function icon_field() {
     $this->assertEquals('48', (new Group($this->group, '/Test'))->field('IconID'));
   }
 
-  #[@test]
+  #[Test]
   public function entries() {
     $this->assertEquals(
       ['7d986517-3006-454d-b8aa-c2a9a314362e' => new Entry($this->entry, '/Test/Entry #1')],
@@ -96,7 +95,7 @@ class GroupTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function groups() {
     $this->assertEquals(
       ['1bbdd52d-f1f0-914f-9da3-c845f609a87d' => new Group($this->child, '/Test/Child')],
@@ -104,7 +103,7 @@ class GroupTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function passwords() {
     $this->assertEquals(
       ['/Test/Entry #1' => new ProtectedValue("\323\$c", "\274J\006")],
@@ -112,4 +111,3 @@ class GroupTest extends \unittest\TestCase {
     );
   }
 }
-

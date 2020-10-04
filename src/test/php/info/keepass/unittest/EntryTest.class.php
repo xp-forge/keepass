@@ -1,7 +1,7 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\Entry;
-use info\keepass\ProtectedValue;
+use info\keepass\{Entry, ProtectedValue};
+use unittest\Test;
 use util\UUID;
 
 class EntryTest extends \unittest\TestCase {
@@ -29,49 +29,48 @@ class EntryTest extends \unittest\TestCase {
     ];
   }
     
-  #[@test]
+  #[Test]
   public function can_create() {
     new Entry($this->entry, '/Entry #1');
   }
 
-  #[@test]
+  #[Test]
   public function path() {
     $this->assertEquals('/Entry #1', (new Entry($this->entry, '/Entry #1'))->path());
   }
 
-  #[@test]
+  #[Test]
   public function uuid() {
     $this->assertEquals(new UUID('7d986517-3006-454d-b8aa-c2a9a314362e'), (new Entry($this->entry, '/Entry #1'))->uuid());
   }
 
-  #[@test]
+  #[Test]
   public function title() {
     $this->assertEquals('Entry #1', (new Entry($this->entry, '/Entry #1'))->title());
   }
 
-  #[@test]
+  #[Test]
   public function notes() {
     $this->assertEquals('Notes', (new Entry($this->entry, '/Entry #1'))->notes());
   }
 
-  #[@test]
+  #[Test]
   public function url() {
     $this->assertEquals('http://example.com/', (new Entry($this->entry, '/Entry #1'))->url());
   }
 
-  #[@test]
+  #[Test]
   public function username() {
     $this->assertEquals('test', (new Entry($this->entry, '/Entry #1'))->username());
   }
 
-  #[@test]
+  #[Test]
   public function password() {
     $this->assertEquals(new ProtectedValue("\323\$c", "\274J\006"), (new Entry($this->entry, '/Entry #1'))->password());
   }
 
-  #[@test]
+  #[Test]
   public function icon_field() {
     $this->assertEquals('42', (new Entry($this->entry, '/Entry #1'))->field('IconID'));
   }
 }
-

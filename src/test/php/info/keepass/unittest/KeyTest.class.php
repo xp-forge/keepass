@@ -1,18 +1,23 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\Key;
-use info\keepass\Header;
-use util\Secret;
-use util\Objects;
+use info\keepass\{Header, Key};
+use unittest\{Test, TestCase, Values};
+use util\{Objects, Secret};
 
-class KeyTest extends \unittest\TestCase {
+class KeyTest extends TestCase {
 
-  #[@test, @values([['test'], [new Secret('test')]])]
+  /** @return iterable */
+  private function secrets() {
+    yield ['test'];
+    yield [new Secret('test')];
+  }
+
+  #[Test, Values('secrets')]
   public function can_create($arg) {
     new Key($arg);
   }
 
-  #[@test, @values([['test'], [new Secret('test')]])]
+  #[Test, Values('secrets')]
   public function transform($arg) {
     $header= new Header();
     $header->rounds= 1;
@@ -24,7 +29,7 @@ class KeyTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([['test'], [new Secret('test')]])]
+  #[Test, Values('secrets')]
   public function string_representation_does_not_reveal_passphrase($arg) {
     $this->assertFalse(strstr(Objects::stringOf(new Key($arg)), 'test'));
   }

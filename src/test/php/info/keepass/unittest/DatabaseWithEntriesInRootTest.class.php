@@ -1,7 +1,7 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\Entry;
-use info\keepass\ProtectedValue;
+use info\keepass\{Entry, ProtectedValue};
+use unittest\Test;
 
 class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
   const ID_ONE = '7d986517-3006-454d-b8aa-c2a9a314362e';
@@ -52,7 +52,7 @@ class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
     ];
   }
 
-  #[@test]
+  #[Test]
   public function entries_in_root() {
     with ($this->database(), function($db) {
       $this->assertEquals(
@@ -65,7 +65,7 @@ class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
     });
   }
 
-  #[@test]
+  #[Test]
   public function all_passwords_in_root() {
     with ($this->database(), function($db) {
       $this->assertEquals(

@@ -1,9 +1,8 @@
 <?php namespace info\keepass\unittest;
 
-use info\keepass\KeePassDatabase;
-use info\keepass\Key;
-use info\keepass\Header;
+use info\keepass\{Header, KeePassDatabase, Key};
 use lang\ClassLoader;
+use unittest\Test;
 
 abstract class AbstractDatabaseTest extends \unittest\TestCase {
   protected $fixture;
@@ -20,12 +19,12 @@ abstract class AbstractDatabaseTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function open() {
     $this->database()->close();
   }
 
-  #[@test]
+  #[Test]
   public function header() {
     with ($this->database(), function($db) {
       $this->assertInstanceOf(Header::class, $db->header());
