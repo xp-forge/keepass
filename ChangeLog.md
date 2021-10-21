@@ -3,6 +3,10 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+## 1.0.2 / 2021-10-21
+
+* Made library compatible with XP 11 - @thekid
+
 ## 1.0.1 / 2020-04-05
 
 * Implemented RFC #335: Remove deprecated key/value pair annotation syntax
