@@ -2,13 +2,13 @@
 
 use info\keepass\{Header, Randoms, XmlStructure};
 use lang\FormatException;
-use unittest\{Expect, Test, Values};
+use test\{Assert, Expect, Before, Test, Values};
 
-class XmlStructureTest extends \unittest\TestCase {
+class XmlStructureTest {
   private $randoms, $xml;
 
-  /** @return void */
-  public function setUp() {
+  #[Before]
+  public function randoms() {
     $this->randoms= newinstance(Randoms::class, [], [
       'next' => function($n) { return str_repeat('*', $n); }
     ]);
@@ -36,14 +36,14 @@ class XmlStructureTest extends \unittest\TestCase {
   public function meta() {
     $structure= new XmlStructure($this->randoms);
     $structure->parse($this->xml);
-    $this->assertEquals('Test', $structure->meta()['Generator']);
+    Assert::equals('Test', $structure->meta()['Generator']);
   }
 
   #[Test]
   public function root() {
     $structure= new XmlStructure($this->randoms);
     $structure->parse($this->xml);
-    $this->assertEquals('Database Root', $structure->root()['Name']);
+    Assert::equals('Database Root', $structure->root()['Name']);
   }
 
   #[Test, Expect(FormatException::class), Values(['', '<KeePassFile>'])]

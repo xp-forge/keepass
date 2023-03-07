@@ -2,9 +2,10 @@
 
 use info\keepass\{Header, KeePassDatabase, Key};
 use lang\ClassLoader;
-use unittest\Test;
+use test\Assert;
+use test\Test;
 
-abstract class AbstractDatabaseTest extends \unittest\TestCase {
+abstract class AbstractDatabaseTest {
   protected $fixture;
 
   /**
@@ -27,7 +28,7 @@ abstract class AbstractDatabaseTest extends \unittest\TestCase {
   #[Test]
   public function header() {
     with ($this->database(), function($db) {
-      $this->assertInstanceOf(Header::class, $db->header());
+      Assert::instance(Header::class, $db->header());
     });
   }
 }

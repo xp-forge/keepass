@@ -2,7 +2,7 @@
 
 use info\keepass\{Entry, Group, ProtectedValue};
 use lang\ElementNotFoundException;
-use unittest\{Expect, Test};
+use test\{Assert, Before, Expect, Test};
 
 class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   const GROUPID = '572dbca6-50a0-c34b-b963-43ed3f673fd9';
@@ -11,8 +11,8 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   private $entry, $group;
   protected $fixture= 'one-group';
 
-  /** @return void */
-  public function setUp() {
+  #[Before]
+  public function initialize() {
     $this->entry= [
       'UUID'            => 'bFPbm3JFHU2564rkDesf4Q==',
       'IconID'          => '0',
@@ -51,21 +51,21 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   #[Test]
   public function test_group() {
     with ($this->database(), function($db) {
-      $this->assertEquals(new Group($this->group, '/Test'), $db->group('/Test'));
+      Assert::equals(new Group($this->group, '/Test'), $db->group('/Test'));
     });
   }
 
   #[Test]
   public function test_password() {
     with ($this->database(), function($db) {
-      $this->assertEquals($this->entry['String']['Password'], $db->password('/Test/Test'));
+      Assert::equals($this->entry['String']['Password'], $db->password('/Test/Test'));
     });
   }
 
   #[Test]
   public function all_passwords_in_test_group() {
     with ($this->database(), function($db) {
-      $this->assertEquals(['/Test/Test' => $this->entry['String']['Password']], iterator_to_array($db->passwords('/Test')));
+      Assert::equals(['/Test/Test' => $this->entry['String']['Password']], iterator_to_array($db->passwords('/Test')));
     });
   }
 
@@ -86,28 +86,28 @@ class DatabaseWithOneGroupTest extends AbstractDatabaseTest {
   #[Test]
   public function groups_in_root() {
     with ($this->database(), function($db) {
-      $this->assertEquals([self::GROUPID => new Group($this->group, '/Test')], iterator_to_array($db->groups()));
+      Assert::equals([self::GROUPID => new Group($this->group, '/Test')], iterator_to_array($db->groups()));
     });
   }
 
   #[Test]
   public function subgroups_of_test_group_are_empty() {
     with ($this->database(), function($db) {
-      $this->assertEquals([], iterator_to_array($db->groups('/Test')));
+      Assert::equals([], iterator_to_array($db->groups('/Test')));
     });
   }
 
   #[Test]
   public function entries_in_test_group() {
     with ($this->database(), function($db) {
-      $this->assertEquals([self::ENTRYID => new Entry($this->entry, '/Test/Test')], iterator_to_array($db->group('/Test')->entries()));
+      Assert::equals([self::ENTRYID => new Entry($this->entry, '/Test/Test')], iterator_to_array($db->group('/Test')->entries()));
     });
   }
 
   #[Test]
   public function entries_in_root() {
     with ($this->database(), function($db) {
-      $this->assertEquals([], iterator_to_array($db->group('/')->entries()));
+      Assert::equals([], iterator_to_array($db->group('/')->entries()));
     });
   }
 }

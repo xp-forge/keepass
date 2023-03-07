@@ -1,7 +1,7 @@
 <?php namespace info\keepass\unittest;
 
 use info\keepass\{Entry, ProtectedValue};
-use unittest\Test;
+use test\{Assert, Before, Test};
 
 class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
   const ID_ONE = '7d986517-3006-454d-b8aa-c2a9a314362e';
@@ -10,8 +10,8 @@ class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
   protected $fixture= 'entries-in-root';
   private $entries;
 
-  /** @return void */
-  public function setUp() {
+  #[Before]
+  public function initialize() {
     $this->entries= [
       self::ID_ONE => [
         'UUID'            => 'fZhlFzAGRU24qsKpoxQ2Lg==',
@@ -55,7 +55,7 @@ class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
   #[Test]
   public function entries_in_root() {
     with ($this->database(), function($db) {
-      $this->assertEquals(
+      Assert::equals(
         [
           self::ID_ONE => new Entry($this->entries[self::ID_ONE], '/Entry #1'),
           self::ID_TWO => new Entry($this->entries[self::ID_TWO], '/Entry #2')
@@ -68,7 +68,7 @@ class DatabaseWithEntriesInRootTest extends AbstractDatabaseTest {
   #[Test]
   public function all_passwords_in_root() {
     with ($this->database(), function($db) {
-      $this->assertEquals(
+      Assert::equals(
         [
           '/Entry #1' => $this->entries[self::ID_ONE]['String']['Password'],
           '/Entry #2' => $this->entries[self::ID_TWO]['String']['Password']
