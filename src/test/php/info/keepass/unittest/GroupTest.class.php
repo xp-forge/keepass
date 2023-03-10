@@ -1,14 +1,14 @@
 <?php namespace info\keepass\unittest;
 
 use info\keepass\{Entry, Group, ProtectedValue};
-use unittest\Test;
+use test\{Assert, Before, Test};
 use util\UUID;
 
-class GroupTest extends \unittest\TestCase {
+class GroupTest {
   private $entry, $child, $group;
 
-  /** @return void */
-  public function setUp() {
+  #[Before]
+  public function initialize() {
     $this->entry= [
       'UUID'            => 'fZhlFzAGRU24qsKpoxQ2Lg==',
       'IconID'          => '42',
@@ -64,32 +64,32 @@ class GroupTest extends \unittest\TestCase {
 
   #[Test]
   public function path() {
-    $this->assertEquals('/Test', (new Group($this->group, '/Test'))->path());
+    Assert::equals('/Test', (new Group($this->group, '/Test'))->path());
   }
 
   #[Test]
   public function uuid() {
-    $this->assertEquals(new UUID('572dbca6-50a0-c34b-b963-43ed3f673fd9'), (new Group($this->group, '/Test'))->uuid());
+    Assert::equals(new UUID('572dbca6-50a0-c34b-b963-43ed3f673fd9'), (new Group($this->group, '/Test'))->uuid());
   }
 
   #[Test]
   public function name() {
-    $this->assertEquals('Test', (new Group($this->group, '/Test'))->name());
+    Assert::equals('Test', (new Group($this->group, '/Test'))->name());
   }
 
   #[Test]
   public function notes() {
-    $this->assertEquals('Notes', (new Group($this->group, '/Test'))->notes());
+    Assert::equals('Notes', (new Group($this->group, '/Test'))->notes());
   }
 
   #[Test]
   public function icon_field() {
-    $this->assertEquals('48', (new Group($this->group, '/Test'))->field('IconID'));
+    Assert::equals('48', (new Group($this->group, '/Test'))->field('IconID'));
   }
 
   #[Test]
   public function entries() {
-    $this->assertEquals(
+    Assert::equals(
       ['7d986517-3006-454d-b8aa-c2a9a314362e' => new Entry($this->entry, '/Test/Entry #1')],
       iterator_to_array((new Group($this->group, '/Test'))->entries())
     );
@@ -97,7 +97,7 @@ class GroupTest extends \unittest\TestCase {
 
   #[Test]
   public function groups() {
-    $this->assertEquals(
+    Assert::equals(
       ['1bbdd52d-f1f0-914f-9da3-c845f609a87d' => new Group($this->child, '/Test/Child')],
       iterator_to_array((new Group($this->group, '/Test'))->groups())
     );
@@ -105,7 +105,7 @@ class GroupTest extends \unittest\TestCase {
 
   #[Test]
   public function passwords() {
-    $this->assertEquals(
+    Assert::equals(
       ['/Test/Entry #1' => new ProtectedValue("\323\$c", "\274J\006")],
       iterator_to_array((new Group($this->group, '/Test'))->passwords())
     );
