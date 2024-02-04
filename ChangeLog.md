@@ -3,6 +3,7 @@ KeePass databases change log
 
 ## ?.?.? / ????-??-??
 
+* Added PHP 8.4 to test matrix - @thekid
 * Merged PR #3: Migrate to new testing library - @thekid
 
 ## 1.0.2 / 2021-10-21
